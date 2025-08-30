@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  order-service:
+    build: ./order-service
+    ports:
+      - "8081:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+  dealer-service:
+    build: ./dealer-service
+    ports:
+      - "8082:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+  dealer-selection-service:
+    build: ./dealer-selection-service
+    ports:
+      - "8083:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+  customer-portal:
+    build: ./customer-portal
+    ports:
+      - "4200:80"
+    depends_on:
+      - order-service
+      - dealer-service
+      - dealer-selection-service
+  dealer-dashboard:
+    build: ./dealer-dashboard
+    ports:
+      - "4300:80"
+    depends_on:
+      - order-service
